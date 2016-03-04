@@ -53,4 +53,8 @@ Rails.application.routes.draw do
   #     # (app/controllers/admin/products_controller.rb)
   #     resources :products
   #   end
+
+  get 'async' => 'async#index'
+  get 'async_live' => 'async_live#index'
+  root 'static_pages#show'
 end

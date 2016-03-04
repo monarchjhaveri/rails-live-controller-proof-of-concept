@@ -1,0 +1,2 @@
+module AsyncLiveHelper
+end
