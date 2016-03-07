@@ -3,7 +3,7 @@ class AsyncLiveController < ApplicationController
 
   def index
     response.headers['Content-Type'] = 'application/json'
-    delay = rand(1..10)
+    delay = rand(4..10)
     sleep(delay)
     response.stream.write({delay: delay}.to_json)
   ensure

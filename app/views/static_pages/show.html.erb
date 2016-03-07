@@ -6,18 +6,37 @@
 <body>
   <script type="text/javascript" src="//code.jquery.com/jquery-2.2.1.min.js"></script>
   <script>
-    var endpoint = window.location.search.indexOf("live") > -1 ? '/async_live' : '/async'
+    var endpoint = getEndpoint();
     var timeStart = Date.now();
-    document.write("starting non multi threaded calls.");
-    document.write("<br>");
-    for (var i = 0; i < 10; i++) {
-      $.get(endpoint)
+    var totalServerDelay = 0;
+
+    writeLine("starting non multi threaded calls.");
+    newLine();
+    for (var i = 0; i < 1000; i++) {
+      makeCall(endpoint)
         .then(function(data) {
           var timeElapsed = (Date.now() - timeStart) / 1000;
           var serverDelay = data.delay;
-          document.write("A call returned " + timeElapsed + " seconds after being called. Server set delay was " + serverDelay);
-          document.write("<br>");
+          totalServerDelay += serverDelay;
+          writeLine("A call returned " + timeElapsed + " seconds after being called. Server set delay was " + serverDelay + ". Total server delay so far is " + totalServerDelay + ".");
+          newLine();
         });
+    }
+
+    function getEndpoint() {
+      return window.location.search.indexOf("live") > -1 ? '/async_live' : '/async';
+    }
+
+    function writeLine(string) {
+      document.write(string);
+    }
+
+    function newLine() {
+      document.write("<br>"); 
+    }
+
+    function makeCall(endpoint) {
+      return $.get(endpoint)
     }
   </script>
 </body>
